@@ -3,7 +3,9 @@ FROM debian:jessie
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -y update && apt-get -y install wget
+RUN apt-get -y update && \
+	apt-get -y install wget git
+
 RUN wget https://www.dotdeb.org/dotdeb.gpg && \
 	apt-key add dotdeb.gpg && \
 	rm -f dotdeb.gpg
