@@ -32,14 +32,24 @@ RUN echo "deb http://packages.dotdeb.org jessie all" >>/etc/apt/sources.list.d/d
 		php7.0-redis \
 		php7.0-soap \
 		php7.0-xml \
-		php7.0-xsl && \
-		apt-get -y clean
+		php7.0-xsl \
+		php7.0-dev \
+		&& \
+	apt-get -y clean
 
 COPY mailparse.so /usr/lib/php/20151012/
 COPY memcached.so /usr/lib/php/20151012/
 
+RUN git clone https://github.com/hnw/php-timecop && \
+	cd php-timecop && \
+	phpize && \
+	./configure && \
+	make && \
+	make install
+
 RUN echo "extension=mailparse.so" >/etc/php/7.0/cli/conf.d/20-mailparse.ini
 RUN echo "extension=memcached.so" >/etc/php/7.0/cli/conf.d/20-memcached.ini
+RUN echo "extension=timecop.so" >/etc/php/7.0/cli/conf.d/20-timecop.ini
 
 # Force build to fail if the modules can't be loaded
 RUN php -m | grep mailparse >/dev/null
