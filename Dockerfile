@@ -13,6 +13,7 @@ RUN wget https://www.dotdeb.org/dotdeb.gpg && \
 RUN echo "deb http://packages.dotdeb.org jessie all" >>/etc/apt/sources.list.d/dotdeb.list && \
 	apt-get -y update && \
 	apt-get -y install \
+		unzip \
 		libmemcached11 \
 		libmemcachedutil2 \
 		php7.0-cli \
@@ -34,6 +35,7 @@ RUN echo "deb http://packages.dotdeb.org jessie all" >>/etc/apt/sources.list.d/d
 		php7.0-xml \
 		php7.0-xsl \
 		php7.0-dev \
+		php7.0-zip \
 		&& \
 	apt-get -y clean
 
