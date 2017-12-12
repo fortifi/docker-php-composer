@@ -2,11 +2,10 @@
 
 This image is designed for building PHP projects using composer.
 
-Based on Debian Jessie with PHP 7.0 installed from dotdeb.org.
+Based on Debian Stretch with PHP 7.0 installed
 
 Includes composer and the following PHP modules:
 - apcu
-- apcu-bc
 - bcmath
 - cli
 - curl
@@ -22,5 +21,6 @@ Includes composer and the following PHP modules:
 - mysql
 - redis
 - soap
+- timecop
 - xml
 - xsl

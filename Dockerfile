@@ -1,24 +1,15 @@
-FROM debian:jessie
+FROM debian:stretch
 
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -y update && \
-	apt-get -y install wget git
-
-RUN wget https://www.dotdeb.org/dotdeb.gpg && \
-	apt-key add dotdeb.gpg && \
-	rm -f dotdeb.gpg
-
-RUN echo "deb http://packages.dotdeb.org jessie all" >>/etc/apt/sources.list.d/dotdeb.list && \
-	apt-get -y update && \
 	apt-get -y install \
+		wget \
+		git \
 		unzip \
-		libmemcached11 \
-		libmemcachedutil2 \
 		php7.0-cli \
 		php7.0-apcu \
-		php7.0-apcu-bc \
 		php7.0-bcmath \
 		php7.0-cli \
 		php7.0-curl \
@@ -36,11 +27,10 @@ RUN echo "deb http://packages.dotdeb.org jessie all" >>/etc/apt/sources.list.d/d
 		php7.0-xsl \
 		php7.0-dev \
 		php7.0-zip \
+		php-memcached \
+		php-mailparse \
 		&& \
 	apt-get -y clean
-
-COPY mailparse.so /usr/lib/php/20151012/
-COPY memcached.so /usr/lib/php/20151012/
 
 RUN git clone https://github.com/hnw/php-timecop && \
 	cd php-timecop && \
@@ -49,13 +39,10 @@ RUN git clone https://github.com/hnw/php-timecop && \
 	make && \
 	make install
 
-RUN echo "extension=mailparse.so" >/etc/php/7.0/cli/conf.d/20-mailparse.ini
-RUN echo "extension=memcached.so" >/etc/php/7.0/cli/conf.d/20-memcached.ini
 RUN echo "extension=timecop.so" >/etc/php/7.0/cli/conf.d/20-timecop.ini
 
 # Force build to fail if the modules can't be loaded
-RUN php -m | grep mailparse >/dev/null
-RUN php -m | grep memcached >/dev/null
+RUN php -m | grep timecop >/dev/null
 
 RUN wget https://getcomposer.org/composer.phar && \
   chmod 0755 composer.phar && \
